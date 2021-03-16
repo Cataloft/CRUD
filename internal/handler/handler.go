@@ -127,3 +127,30 @@ func (h *Handler) GetBlogOwner(c echo.Context) error {
 	}
 	return c.String(http.StatusOK, string(bytes))
 }
+
+// /updateUser?id=?&name=?&surname=?&email=?
+func (h *Handler) UpdateUser(c echo.Context) error {
+	id := c.QueryParam("id")
+	name := c.QueryParam("name")
+	surname := c.QueryParam("surname")
+	email := c.QueryParam("email")
+
+	_, err := h.Conn.Exec(context.Background(), "update public.user set name=$1, surname=$2, email=$3 where id=$4;", name, surname, email, id)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.String(http.StatusOK, "user updated")
+}
+
+// /deleteUser?id=?
+func (h *Handler) DeleteUser(c echo.Context) error {
+	id := c.QueryParam("id")
+
+	_, err := h.Conn.Exec(context.Background(), "delete from public.user where id=$1;", id)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.String(http.StatusOK, "user deleted")
+}

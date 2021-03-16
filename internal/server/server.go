@@ -24,6 +24,8 @@ func New(handler *handler.Handler) *Server {
 func (s *Server) initHandlers() {
 	s.e.POST("/register", s.handler.Register)
 	s.e.GET("/getUser", s.handler.GetUser)
+	s.e.GET("/updateUser", s.handler.UpdateUser)
+	s.e.GET("/deleteUser", s.handler.DeleteUser)
 	s.e.POST("/createBlog", s.handler.CreateBlog)
 	s.e.GET("/getBlog", s.handler.GetBlog)
 	s.e.GET("/getBlogOwner", s.handler.GetBlogOwner)
